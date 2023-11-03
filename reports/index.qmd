@@ -1,0 +1,8 @@
+``` r
+library(tidyverse)
+
+#Read and inspect data
+bor_nestlings <- read_csv(here::here("data/73_species.csv"))
+bor_traits <- read_csv(here::here("data/Traits_73_species.csv"))
+avonet <- readxl::read_excel(here::here("data/AVONET%20Supplementary%20dataset%201.xlsx"))
+```
