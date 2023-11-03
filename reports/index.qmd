@@ -1,8 +1,154 @@
-``` r
-library(tidyverse)
+---
+title: "Assessment 3"
+format: html
+editor: visual
+---
 
-#Read and inspect data
+### Read Data
+
+```{r}
+library(tidyverse)
 bor_nestlings <- read_csv(here::here("data/73_species.csv"))
 bor_traits <- read_csv(here::here("data/Traits_73_species.csv"))
-avonet <- readxl::read_excel(here::here("data/AVONET%20Supplementary%20dataset%201.xlsx"))
+avonet <- readxl::read_excel(here::here("data/AVONET%20Supplementary%20dataset%201.xlsx"), sheet = "AVONET1_BirdLife")
 ```
+
+### Explore the data
+
+Are nestlings showing up earlier in the year over time?
+
+```{r}
+all_birds_trend <- bor_nestlings %>% 
+  group_by(Year) %>% 
+  summarize(mean_doy = mean(Dayofyear))
+
+ggplot(all_birds_trend, aes(Year, mean_doy)) + 
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+That combined data for all 73 species, grouped by year. Let's also group by species to get a species breakdown by year.
+
+```{r}
+species_trends <- bor_nestlings %>% 
+  group_by(Year, Species) %>% 
+  summarize(mean_doy = mean(Dayofyear),
+            .groups = "drop")
+
+ggplot(species_trends, aes(Year, mean_doy, color = Species)) + 
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+Weeeeelll that's a pukey plot if I've ever seen one...Let's just look at the 5 most data rich species.
+
+```{r}
+#How many data points for each unique species are represented in our dataset? 
+data_richness <- bor_nestlings %>% 
+  count(Species)
+
+#Arrange in descending order (most to least data points) 
+most_rich <- data_richness %>% 
+  arrange(desc(n)) %>% 
+  slice(1:5)
+
+#Okay now lets looks at a less pukey species trends for just the 5 most data rich spp.
+most_rich_trends <- bor_nestlings %>% 
+  filter(Species %in% most_rich$Species) %>% #oooh indexing by name AND position, FANCY!
+  group_by(Species, Year) %>% 
+  summarize(mean_doy = mean(Dayofyear), 
+            .groups = "drop")
+
+#TA-DA! A less pukey plot! Hooray!
+ggplot(most_rich_trends, aes(Year, mean_doy, color = Species)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+Cool! Most species have a similar trend to one another except for one which has an opposite trend. Interesting...But which species have the strongest trends?
+
+```{r}
+# Finds the slope of the relationship between y and x
+trend <- function(x, y) {
+  xy_lm <- lm(y ~ x)
+  coef(xy_lm)[2]
+}
+
+# Calculate the trend for all species
+bor_trends <- species_trends %>% 
+  group_by(Species) %>% 
+  summarize(doy_trend = trend(Year, mean_doy))
+```
+
+Quick spot check of 2 species
+
+```{r}
+soi <- c("ARDCIN", "LARMIN")
+species_trends %>% 
+  filter(Species %in% soi) %>% 
+  ggplot(aes(Year, mean_doy, color = Species)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+### MY Turn!
+
+Find the species with the most positive and most negative trends, then plot just those.
+
+```{r}
+nrow_bor_trends <- nrow(bor_trends) # Use this later
+bor_extreme <- bor_trends %>% 
+  arrange(doy_trend) %>% # Sort by the day of year trend
+  slice(c(1, nrow_bor_trends)) # Keep just the first (most negative trend) and last (most positive trend) rows
+
+# Now plot the most positive and negative species trends
+species_trends %>% 
+  filter(Species %in% bor_extreme$Species) %>% 
+  ggplot(aes(Year, mean_doy, color = Species)) + 
+    geom_point() +
+    geom_smooth(method = "lm")
+```
+
+### Let's Bring in More Data
+
+Next we\'re going to test the hypothesis that smaller birds have more flexible phenology, i.e. the absolute value of the trend is correlated with smaller body sizes.
+
+To test our hypothesis, we need to add AVONET data to our phenology data by joining.
+
+```{r}
+# First, select and rename important columns
+avonet_size <- select(avonet, SciName = Species1, Mass_g = Mass)
+bor_sciname <- select(bor_traits, 
+                      Species = Abbreviation, 
+                      SciName = `Scientific name`)
+```
+
+Now join them all together.
+
+```{r}
+bor_trends_size <- bor_trends %>% 
+  left_join(bor_sciname, by = "Species") %>% 
+  left_join(avonet_size, by = "SciName") %>% 
+  mutate(abs_trend = abs(doy_trend))
+
+# Plot it
+ggplot(bor_trends_size, aes(Mass_g, abs_trend)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+That\'s kind of hard to interpret. Make a new variable, `bor_trends_size2`, that removes the missing values in `Mass_g` and keeps only birds smaller than 2000 g with an absolute trend less than 1.
+
+```{r}
+bor_trends_size2 <- bor_trends_size %>% 
+  drop_na(Mass_g) %>% 
+  filter(Mass_g < 2000,
+         doy_trend < 1)
+  
+  
+ggplot(bor_trends_size2, aes(Mass_g, abs_trend)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+Our hypothesis is not supported! We don't have evidence to say that smaller birds have more flexible phenology.

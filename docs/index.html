@@ -57,16 +57,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="Abdel-Raheem_Assessment3_files/libs/clipboard/clipboard.min.js"></script>
-<script src="Abdel-Raheem_Assessment3_files/libs/quarto-html/quarto.js"></script>
-<script src="Abdel-Raheem_Assessment3_files/libs/quarto-html/popper.min.js"></script>
-<script src="Abdel-Raheem_Assessment3_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="Abdel-Raheem_Assessment3_files/libs/quarto-html/anchor.min.js"></script>
-<link href="Abdel-Raheem_Assessment3_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="Abdel-Raheem_Assessment3_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="Abdel-Raheem_Assessment3_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="Abdel-Raheem_Assessment3_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="Abdel-Raheem_Assessment3_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="index_files/libs/clipboard/clipboard.min.js"></script>
+<script src="index_files/libs/quarto-html/quarto.js"></script>
+<script src="index_files/libs/quarto-html/popper.min.js"></script>
+<script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="index_files/libs/quarto-html/anchor.min.js"></script>
+<link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="index_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -180,7 +180,7 @@ dbl (1): Broods
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="Abdel-Raheem_Assessment3_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>That combined data for all 73 species, grouped by year. Let’s also group by species to get a species breakdown by year.</p>
@@ -197,7 +197,7 @@ dbl (1): Broods
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="Abdel-Raheem_Assessment3_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Weeeeelll that’s a pukey plot if I’ve ever seen one…Let’s just look at the 5 most data rich species.</p>
@@ -226,7 +226,7 @@ dbl (1): Broods
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="Abdel-Raheem_Assessment3_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Cool! Most species have a similar trend to one another except for one which has an opposite trend. Interesting…But which species have the strongest trends?</p>
@@ -254,7 +254,7 @@ dbl (1): Broods
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="Abdel-Raheem_Assessment3_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -277,7 +277,7 @@ dbl (1): Broods
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="Abdel-Raheem_Assessment3_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -313,7 +313,7 @@ dbl (1): Broods
 <pre><code>Warning: Removed 7 rows containing missing values (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="Abdel-Raheem_Assessment3_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>That's kind of hard to interpret. Make a new variable,&nbsp;<code>bor_trends_size2</code>, that removes the missing values in&nbsp;<code>Mass_g</code>&nbsp;and keeps only birds smaller than 2000 g with an absolute trend less than 1.</p>
@@ -331,7 +331,7 @@ dbl (1): Broods
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="Abdel-Raheem_Assessment3_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Our hypothesis is not supported! We don’t have evidence to say that smaller birds have more flexible phenology.</p>
